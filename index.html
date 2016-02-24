@@ -233,34 +233,45 @@ var dataset = [{"country":"Afghanistan","age":21.5},
 {"country":"Zambia","age":21.1},
 {"country":"Zimbabwe","age":20.6}]
 
+// d3.select("body").selectAll("p")
+// .data(dataset)
+// .enter()
+// .append("p")
 
-
-d3.select("body").selectAll("p")
-.data(dataset)
-.enter()
-.append("p")
-
-d3.selectAll("p")
-.text(function(d, i) { return d.country + d.age; })
+// d3.selectAll("p")
+// .text(function(d, i) { return d.country + d.age; })
 
 var svg = d3.select("body")
 		    .append("svg")
 		    .attr("width", 2000)
-		    .attr("height", 2000);
+		    .attr("height", 20000);
 
 var circles = svg.selectAll("circle")
 .data(dataset)
 .enter()
 .append("circle");
 
-//circles.attr("cx", "5")
-circles.attr("cy", function(d, i) {
-            return (d.age * 50) + 25;
-        })
+circles
 .attr("cx", "20")
+.attr("cy", function(d, i) {
+            return (d.age * 50) + 400;
+        })
+
 .attr("r", function(d) {
             return d.age;
        });
+
+// Labels have to repeat x and y attr.
+			svg.selectAll("text")
+			   .data(dataset)
+			   .enter()
+			   .append("text")
+			   .text(function(d) {return d.country + d.age;})
+			   .attr("x", "20")
+			   .attr("y", function(d, i) {return (d.age * 50) + 400;})
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", "11px")
+			   .attr("fill", "salmon");
 
 // .text(dataset.forEach(function(d){
 // 	var country = d.country;
@@ -268,5 +279,6 @@ circles.attr("cy", function(d, i) {
 // }))
 		</script>
 	
-</body></html>
+</body>
+</html>
 
