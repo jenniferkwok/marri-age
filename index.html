@@ -253,42 +253,14 @@ var circles = svg.selectAll("circle")
 .enter()
 .append("circle");
 
-circles.attr("cx", "5")
-.attr("cy", "5")
-.attr("r","8")
-
-// svg.selectAll('g.dataObject')
-//     .data(data)
-//     .enter()
-//     .append('g')
-//     .attr('foo', function (d) {
- 
-//     })
-
-//       .selectAll('rect')
-//       .data(function (d) { return d.country; })
-//       .enter()
-//       .append('rect')
-//       .attr(function (d) {
-//       })
-
-
-
-
-
-// var svgContainer = d3.select("body").append("svg")
-//                                     .attr("width", 2000)
-//                                     .attr("height", 2000);
-
-// var circles = svgContainer.selectAll("circle")
-//                           .data(dataset.year)
-//                           .enter()
-//                           .append("circle");
-// var circleAttr = circle.attr("cx", 10)
-// .attr("cy", 10)
-// .attr("r",20)
-// .style("fill", "red");
-
+//circles.attr("cx", "5")
+circles.attr("cy", function(d, i) {
+            return (d.age * 50) + 25;
+        })
+.attr("cx", "20")
+.attr("r", function(d) {
+            return d.age;
+       });
 
 // .text(dataset.forEach(function(d){
 // 	var country = d.country;
