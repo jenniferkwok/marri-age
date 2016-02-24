@@ -1,0 +1,300 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+		<title>World's Average Age at Marriage Visualization</title>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+		<style type="text/css">
+		</style>
+	</head>
+	<body>
+	<p>source: <a href="http://data.un.org/DocumentData.aspx?q=marriage&id=337">1</a><br>
+	older:
+	<a href="http://data.un.org/Data.aspx?d=GenderStat&f=inID%3a20">2</a></p>
+		<script type="text/javascript">
+//Handy JSON converter! https://shancarter.github.io/mr-data-converter/
+
+var dataset = [{"country":"Afghanistan","age":21.5},
+{"country":"Albania","age":25.1},
+{"country":"Algeria","age":29.5},
+{"country":"American Samoa","age":25.7},
+{"country":"Angola","age":19.4},
+{"country":"Anguilla","age":28.6},
+{"country":"Antigua and Barbuda","age":25.7},
+{"country":"Argentina","age":24.6},
+{"country":"Armenia","age":24.4},
+{"country":"Aruba","age":28.5},
+{"country":"Australia","age":29.7},
+{"country":"Austria","age":31.0},
+{"country":"Azerbaijan","age":24.4},
+{"country":"Bahamas","age":27.4},
+{"country":"Bahrain","age":26.3},
+{"country":"Bangladesh","age":18.6},
+{"country":"Barbados","age":31.8},
+{"country":"Belarus","age":24.6},
+{"country":"Belgium","age":30.7},
+{"country":"Belize","age":21.0},
+{"country":"Benin","age":20.5},
+{"country":"Bermuda","age":30.6},
+{"country":"Bhutan","age":22.8},
+{"country":"Bolivia (Plurinational State of)","age":22.7},
+{"country":"Bosnia and Hercegovina","age":25.1},
+{"country":"Botswana","age":26.4},
+{"country":"Brazil","age":29.7},
+{"country":"British Virgin Islands","age":28.4},
+{"country":"Brunei Darussalam","age":25.0},
+{"country":"Bulgaria","age":26.2},
+{"country":"Burkina Faso","age":19.5},
+{"country":"Burundi","age":22.1},
+{"country":"Cambodia","age":22.0},
+{"country":"Cameroon","age":21.3},
+{"country":"Canada","age":26.6},
+{"country":"Cape Verde","age":22.8},
+{"country":"Cayman Islands","age":28.0},
+{"country":"Central African Republic","age":19.4},
+{"country":"Chad","age":18.3},
+{"country":"Chile","age":27.4},
+{"country":"China","age":24.7},
+{"country":"China, Hong Kong SAR","age":30.3},
+{"country":"China, Macao SAR","age":27.7},
+{"country":"Colombia","age":22.2},
+{"country":"Comoros","age":23.6},
+{"country":"Congo","age":21.9},
+{"country":"Cook Islands","age":29.6},
+{"country":"Costa Rica","age":23.9},
+{"country":"Côte d'Ivoire","age":21.9},
+{"country":"Croatia","age":26.2},
+{"country":"Cuba","age":21.1},
+{"country":"Cyprus","age":27.9},
+{"country":"Czech Republic","age":30.2},
+{"country":"Democratic People's Republic of  of Korea","age":25.5},
+{"country":"Democratic Republic of the Congo","age":20.8},
+{"country":"Denmark","age":31.0},
+{"country":"Djibouti","age":27.7},
+{"country":"Dominica","age":32.5},
+{"country":"Dominican Republic","age":21.0},
+{"country":"Ecuador","age":21.8},
+{"country":"Egypt","age":22.7},
+{"country":"El Salvador","age":22.5},
+{"country":"Equatorial Guinea","age":21.7},
+{"country":"Eritrea","age":20.6},
+{"country":"Estonia","age":24.5},
+{"country":"Ethiopia","age":21.2},
+{"country":"Faeroe Islands","age":30.7},
+{"country":"Fiji","age":22.9},
+{"country":"Finland","age":30.2},
+{"country":"France","age":31.6},
+{"country":"French Guiana","age":32.0},
+{"country":"French Polynesia","age":33.1},
+{"country":"Gabon","age":22.1},
+{"country":"Gambia","age":19.6},
+{"country":"Georgia","age":23.4},
+{"country":"Germany","age":31.7},
+{"country":"Ghana","age":23.4},
+{"country":"Gibraltar","age":26.8},
+{"country":"Greece","age":26.9},
+{"country":"Greenland","age":31.4},
+{"country":"Grenada","age":31.0},
+{"country":"Guadeloupe","age":31.6},
+{"country":"Guam","age":24.4},
+{"country":"Guatemala","age":21.6},
+{"country":"Guinea","age":19.3},
+{"country":"Guyana","age":21.5},
+{"country":"Haiti","age":22.2},
+{"country":"Honduras","age":21.3},
+{"country":"Hungary","age":31.1},
+{"country":"Iceland","age":27.8},
+{"country":"India","age":20.2},
+{"country":"Indonesia","age":22.3},
+{"country":"Iran (Islamic Republic of)","age":23.5},
+{"country":"Iraq","age":22.8},
+{"country":"Ireland","age":31.8},
+{"country":"Israel","age":26.2},
+{"country":"Italy","age":30.6},
+{"country":"Jamaica","age":33.2},
+{"country":"Japan","age":29.7},
+{"country":"Jordan","age":24.7},
+{"country":"Kazakhstan","age":25.1},
+{"country":"Kenya","age":22.0},
+{"country":"Kiribati","age":20.9},
+{"country":"Kuwait","age":27.5},
+{"country":"Kyrgyzstan","age":23.2},
+{"country":"Lao People's Democratic Republic","age":21.7},
+{"country":"Latvia","age":29.9},
+{"country":"Lebanon","age":28.3},
+{"country":"Lesotho","age":24.1},
+{"country":"Liberia","age":22.7},
+{"country":"Libya","age":31.2},
+{"country":"Liechtenstein","age":29.6},
+{"country":"Lithuania","age":29.1},
+{"country":"Luxembourg","age":27.8},
+{"country":"Madagascar","age":19.0},
+{"country":"Malawi","age":19.6},
+{"country":"Malaysia","age":25.7},
+{"country":"Maldives","age":22.4},
+{"country":"Mali","age":17.8},
+{"country":"Malta","age":28.2},
+{"country":"Marshall Islands","age":20.8},
+{"country":"Martinique","age":33.3},
+{"country":"Mauritania","age":21.8},
+{"country":"Mauritius","age":22.6},
+{"country":"Mayotte","age":22.1},
+{"country":"Mexico","age":23.0},
+{"country":"Micronesia (Fed. States of)","age":24.3},
+{"country":"Mongolia","age":24.2},
+{"country":"Montenegro","age":26.2},
+{"country":"Montserrat","age":28.5},
+{"country":"Morocco","age":26.4},
+{"country":"Mozambique","age":18.9},
+{"country":"Myanmar","age":26.1},
+{"country":"Namibia","age":28.3},
+{"country":"Nauru","age":20.2},
+{"country":"Nepal","age":19.9},
+{"country":"Netherlands","age":31.5},
+{"country":"Netherlands Antilles","age":30.2},
+{"country":"New Caledonia","age":31.9},
+{"country":"New Zealand","age":25.6},
+{"country":"Nicaragua","age":21.0},
+{"country":"Niger","age":17.6},
+{"country":"Nigeria","age":21.6},
+{"country":"Norway","age":31.8},
+{"country":"Oman","age":24.8},
+{"country":"Pakistan","age":22.7},
+{"country":"Palau","age":26.6},
+{"country":"Panama","age":21.6},
+{"country":"Papua New Guinea","age":21.4},
+{"country":"Paraguay","age":22.9},
+{"country":"Peru","age":23.5},
+{"country":"Philippines","age":24.4},
+{"country":"Poland","age":25.3},
+{"country":"Portugal","age":25.6},
+{"country":"Puerto Rico","age":24.1},
+{"country":"Qatar","age":25.4},
+{"country":"Republic of Korea","age":28.8},
+{"country":"Republic of Moldova","age":21.9},
+{"country":"Réunion","age":31.0},
+{"country":"Romania","age":26.6},
+{"country":"Russian Federation","age":24.4},
+{"country":"Rwanda","age":24.4},
+{"country":"Saint Kitts and Nevis","age":31.3},
+{"country":"Saint Lucia","age":22.8},
+{"country":"Saint Vincent and the Grenadines","age":21.2},
+{"country":"Saint-Pierre-et-Miquelon","age":23.9},
+{"country":"Samoa","age":24.0},
+{"country":"San Marino","age":28.8},
+{"country":"Sao Tome and Principe","age":20.5},
+{"country":"Saudi Arabia","age":24.6},
+{"country":"Senegal","age":21.6},
+{"country":"Serbia","age":25.9},
+{"country":"Seychelles","age":25.2},
+{"country":"Sierra Leone","age":20.5},
+{"country":"Singapore","age":27.9},
+{"country":"Slovakia","age":29.1},
+{"country":"Slovenia","age":30.7},
+{"country":"Solomon Islands","age":20.9},
+{"country":"South Africa","age":30.6},
+{"country":"South Sudan","age":20.7},
+{"country":"Spain","age":29.3},
+{"country":"Sri Lanka","age":23.6},
+{"country":"State of Palestine","age":24.2},
+{"country":"Sudan","age":22.2},
+{"country":"Suriname","age":28.8},
+{"country":"Swaziland","age":26.5},
+{"country":"Sweden","age":31.4},
+{"country":"Switzerland","age":29.8},
+{"country":"Syrian Arab Republic","age":25.4},
+{"country":"Tajikistan","age":22.1},
+{"country":"Thailand","age":24.1},
+{"country":"Timor-Leste","age":23.1},
+{"country":"Togo","age":21.3},
+{"country":"Tonga","age":25.6},
+{"country":"Trinidad and Tobago","age":28.1},
+{"country":"Tunisia","age":28.7},
+{"country":"Turkey","age":24.2},
+{"country":"Turkmenistan","age":23.4},
+{"country":"Turks and Caicos Islands","age":25.2},
+{"country":"Tuvalu","age":21.5},
+{"country":"Uganda","age":20.0},
+{"country":"Ukraine","age":23.1},
+{"country":"United Arab Emirates","age":25.3},
+{"country":"United Kingdom","age":31.8},
+{"country":"United Republic of Tanzania","age":21.0},
+{"country":"United States of America","age":26.9},
+{"country":"United States Virgin Islands","age":27.5},
+{"country":"Uruguay","age":24.8},
+{"country":"Uzbekistan","age":20.6},
+{"country":"Vanuatu","age":22.6},
+{"country":"Venezuela (Bolivarian Republic of)","age":22.7},
+{"country":"Viet Nam","age":22.7},
+{"country":"Wallis and Futuna Islands","age":24.3},
+{"country":"Western Sahara","age":18.0},
+{"country":"Yemen","age":22.2},
+{"country":"Zambia","age":21.1},
+{"country":"Zimbabwe","age":20.6}]
+
+
+
+d3.select("body").selectAll("p")
+.data(dataset)
+.enter()
+.append("p")
+
+d3.selectAll("p")
+.text(function(d, i) { return d.country + d.age; })
+
+var svg = d3.select("body")
+		    .append("svg")
+		    .attr("width", 2000)
+		    .attr("height", 2000);
+
+var circles = svg.selectAll("circle")
+.data(dataset)
+.enter()
+.append("circle");
+
+circles.attr("cx", "5")
+.attr("cy", "5")
+.attr("r","8")
+
+// svg.selectAll('g.dataObject')
+//     .data(data)
+//     .enter()
+//     .append('g')
+//     .attr('foo', function (d) {
+ 
+//     })
+
+//       .selectAll('rect')
+//       .data(function (d) { return d.country; })
+//       .enter()
+//       .append('rect')
+//       .attr(function (d) {
+//       })
+
+
+
+
+
+// var svgContainer = d3.select("body").append("svg")
+//                                     .attr("width", 2000)
+//                                     .attr("height", 2000);
+
+// var circles = svgContainer.selectAll("circle")
+//                           .data(dataset.year)
+//                           .enter()
+//                           .append("circle");
+// var circleAttr = circle.attr("cx", 10)
+// .attr("cy", 10)
+// .attr("r",20)
+// .style("fill", "red");
+
+
+// .text(dataset.forEach(function(d){
+// 	var country = d.country;
+// 	return country
+// }))
+		</script>
+	
+</body></html>
+
