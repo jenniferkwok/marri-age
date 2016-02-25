@@ -9,12 +9,8 @@
 		</style>
 	</head>
 	<body>
-	<p>source: <a href="http://data.un.org/DocumentData.aspx?q=marriage&id=337">1</a><br>
-	older:
-	<a href="http://data.un.org/Data.aspx?d=GenderStat&f=inID%3a20">2</a></p>
 		<script type="text/javascript">
 //Handy JSON converter! https://shancarter.github.io/mr-data-converter/
-
 var dataset = [{"country":"Afghanistan","age":21.5},
 {"country":"Albania","age":25.1},
 {"country":"Algeria","age":29.5},
@@ -252,14 +248,16 @@ var circles = svg.selectAll("circle")
 .append("circle");
 
 circles
-.attr("cx", "20")
-.attr("cy", function(d, i) {
-            return (d.age * 50) + 400;
-        })
-
-.attr("r", function(d) {
-            return d.age;
-       });
+.attr("cx", function(d,i){
+	if (d.age<=24){return d.age} 
+		else {return(d.age-17) * 50;}
+})
+.attr("cy", function(d, i) {return (d.age-17) * 50;})
+.attr("r", function(d) {return d.age;})
+.attr("fill", function(d){
+	if(d.age<=24){return "lime"}
+		else{return"black"}
+	})
 
 // Labels have to repeat x and y attr.
 			svg.selectAll("text")
@@ -267,18 +265,29 @@ circles
 			   .enter()
 			   .append("text")
 			   .text(function(d) {return d.country + d.age;})
-			   .attr("x", "20")
-			   .attr("y", function(d, i) {return (d.age * 50) + 400;})
+			   .attr("x", function(d, i) {return (d.age-17) * 50;})
+			   .attr("y", function(d, i) {return (d.age-17) * 50;})
 			   .attr("font-family", "sans-serif")
 			   .attr("font-size", "11px")
 			   .attr("fill", "salmon");
+
+
+svg.selectAll("circle")
+  .transition()
+ // CHALLENGE: transition by age
+  .delay(function(d, i) {
+    return i * 10;
+  })
+  .duration(1000)
+  .attr("fill", "aqua")
+
 
 // .text(dataset.forEach(function(d){
 // 	var country = d.country;
 // 	return country
 // }))
 		</script>
-	
+<!-- source: <a href="http://data.un.org/DocumentData.aspx?q=marriage&id=337">1</a> -->
 </body>
 </html>
 
