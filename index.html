@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-		<title>World's Average Age at Marriage Visualization</title>
+		<title>Women's Average Age at Marriage Visualized!</title>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
 		<style type="text/css">
 		</style>
@@ -229,6 +229,7 @@ var dataset = [{"country":"Afghanistan","age":21.5},
 {"country":"Zambia","age":21.1},
 {"country":"Zimbabwe","age":20.6}]
 
+var sortByAge = dataset.sort(function(a,b){return a.age - b.age;});
 // d3.select("body").selectAll("p")
 // .data(dataset)
 // .enter()
@@ -243,15 +244,12 @@ var svg = d3.select("body")
 		    .attr("height", 20000);
 
 var circles = svg.selectAll("circle")
-.data(dataset)
+.data(sortByAge)
 .enter()
 .append("circle");
 
 circles
-.attr("cx", function(d,i){
-	if (d.age<=24){return d.age} 
-		else {return(d.age-17) * 50;}
-})
+.attr("cx", function(d,i){return(d.age-17) * 50;})
 .attr("cy", function(d, i) {return (d.age-17) * 50;})
 .attr("r", function(d) {return d.age;})
 .attr("fill", function(d){
@@ -260,8 +258,9 @@ circles
 	})
 
 // Labels have to repeat x and y attr.
+// TO DO: turn to hover labels
 			svg.selectAll("text")
-			   .data(dataset)
+			   .data(sortByAge)
 			   .enter()
 			   .append("text")
 			   .text(function(d) {return d.country + d.age;})
@@ -274,18 +273,13 @@ circles
 
 svg.selectAll("circle")
   .transition()
- // CHALLENGE: transition by age
   .delay(function(d, i) {
     return i * 10;
   })
-  .duration(1000)
+  .duration(10)
   .attr("fill", "aqua")
 
-
-// .text(dataset.forEach(function(d){
-// 	var country = d.country;
-// 	return country
-// }))
+// .text(dataset.forEach(function(d){var country = d.country;return country}))
 		</script>
 <!-- source: <a href="http://data.un.org/DocumentData.aspx?q=marriage&id=337">1</a> -->
 </body>
