@@ -52,8 +52,8 @@ var dataset = [{"country":"Afghanistan","age":21.5},
 {"country":"Chad","age":18.3},
 {"country":"Chile","age":27.4},
 {"country":"China","age":24.7},
-{"country":"China, Hong Kong SAR","age":30.3},
-{"country":"China, Macao SAR","age":27.7},
+{"country":"Hong Kong","age":30.3},
+{"country":"Macao","age":27.7},
 {"country":"Colombia","age":22.2},
 {"country":"Comoros","age":23.6},
 {"country":"Congo","age":21.9},
@@ -230,18 +230,29 @@ var dataset = [{"country":"Afghanistan","age":21.5},
 {"country":"Zimbabwe","age":20.6}]
 
 var sortByAge = dataset.sort(function(a,b){return a.age - b.age;});
-// d3.select("body").selectAll("p")
-// .data(dataset)
-// .enter()
-// .append("p")
-
-// d3.selectAll("p")
-// .text(function(d, i) { return d.country + d.age; })
 
 var svg = d3.select("body")
 		    .append("svg")
 		    .attr("width", 2000)
 		    .attr("height", 20000);
+// Labels have to repeat x and y attr.
+// TO DO: turn to hover labels. 
+// Tooltip examples! http://stackoverflow.com/questions/10805184/d3-show-data-on-mouseover-of-circle
+var tooltip = svg.selectAll("text")
+			   .data(sortByAge)
+			   .enter()
+			   .append("text")
+			       .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+			   // .text(function(d) {return d.country + d.age;})
+			   // .attr("x", function(d, i) {return (d.age-17) * 50;})
+			   // .attr("y", function(d, i) {return (d.age-17) * 50;})
+			   .attr("x", 600)
+			   .attr("y", 300)
+			   .attr("font-family", "sans-serif")
+			   .attr("font-size", 30)
+			   .attr("fill", "salmon");
 
 var circles = svg.selectAll("circle")
 .data(sortByAge)
@@ -249,35 +260,26 @@ var circles = svg.selectAll("circle")
 .append("circle");
 
 circles
-.attr("cx", function(d,i){return(d.age-17) * 50;})
-.attr("cy", function(d, i) {return (d.age-17) * 50;})
+.attr("cx", function(d,i){return(d.age-17) * 150;})
+.attr("cy", 500)
 .attr("r", function(d) {return d.age;})
-.attr("fill", function(d){
-	if(d.age<=24){return "lime"}
-		else{return"black"}
+.attr("fill", function(d){if(d.age<=26.3){return "lime"}else{return"black";}})
+
+// .on("mouseover", function(d){return tooltip.text("d.country")})
+.on("mouseover", function(d){return tooltip
+	.style("visibility", "visible")
+	.text(d.country + ", " + d.age);
 	})
+	.on("mouseout", function(){return tooltip.style("visibility", "hidden");});
 
-// Labels have to repeat x and y attr.
-// TO DO: turn to hover labels
-			svg.selectAll("text")
-			   .data(sortByAge)
-			   .enter()
-			   .append("text")
-			   .text(function(d) {return d.country + d.age;})
-			   .attr("x", function(d, i) {return (d.age-17) * 50;})
-			   .attr("y", function(d, i) {return (d.age-17) * 50;})
-			   .attr("font-family", "sans-serif")
-			   .attr("font-size", "11px")
-			   .attr("fill", "salmon");
-
-
+// TRANSITION
 svg.selectAll("circle")
   .transition()
-  .delay(function(d, i) {
-    return i * 10;
-  })
-  .duration(10)
+  .delay(function(d, i) {return i * 1000;})
+  .duration(10000)
   .attr("fill", "aqua")
+.attr("cx", function(d, i) {return (d.age-17) * 20;})
+// .attr("cy", function(d, i) {return (d.age-17) * 20;})
 
 // .text(dataset.forEach(function(d){var country = d.country;return country}))
 		</script>
